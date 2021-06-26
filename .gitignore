@@ -1,6 +1,9 @@
 # Tmp
 dist
 
+# Editor
+.idea
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
