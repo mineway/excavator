@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/jaypipes/ghw"
+	"github.com/mineway/excavator/internal/pkg/config"
 	"github.com/mineway/excavator/internal/pkg/logger"
-	"github.com/mineway/excavator/internal/pkg/rig"
+	"runtime"
 )
 
 var pipeName = "computer"
@@ -16,8 +17,13 @@ func (Computer) GetName() string {
 	return pipeName
 }
 
-func (Computer) Run(ctx context.Context, r *rig.Core) (err error) {
+func (Computer) Run(ctx context.Context, c *config.Config) (err error) {
 	logger.Info("[%s] extract computer informations..", pipeName)
+
+	c.OS = runtime.GOOS
+	c.Arch = runtime.GOARCH
+
+	logger.Success("[%s] OS found : %s (%s)", pipeName, c.OS, c.Arch)
 
 	cpu, err := ghw.CPU()
 	if err != nil {
@@ -25,7 +31,7 @@ func (Computer) Run(ctx context.Context, r *rig.Core) (err error) {
 	}
 
 	if len(cpu.Processors) != 0 {
-		r.SetCPU(cpu)
+		c.RigData.Cpu = cpu
 		for _, processor := range cpu.Processors {
 			logger.Success("[%s] CPU found : %s", pipeName, processor.Model)
 		}
@@ -39,7 +45,7 @@ func (Computer) Run(ctx context.Context, r *rig.Core) (err error) {
 	}
 
 	if len(gpu.GraphicsCards) != 0 {
-		r.SetGPU(gpu)
+		c.RigData.Gpu = gpu
 		for _, graphicsCard := range gpu.GraphicsCards {
 			logger.Success("[%s] GPU found : %s", pipeName, graphicsCard.DeviceInfo.Product.Name)
 		}
