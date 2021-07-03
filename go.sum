@@ -9,6 +9,8 @@ github.com/ermos/annotation v0.0.0-20210309132609-a4e71ea8028f h1:qQ6PppI+6E4//L
 github.com/ermos/annotation v0.0.0-20210309132609-a4e71ea8028f/go.mod h1:9L6yVHumyw9FGjKt0WtGkGTef8VKOd/mb9lfZJHpr1g=
 github.com/ermos/dotenv v0.0.0-20210228224351-e4d9147e206a h1:6pXn9rrVmXcg4eKs0Idtff1GimNXa6w1lccMW3uiGB0=
 github.com/ermos/dotenv v0.0.0-20210228224351-e4d9147e206a/go.mod h1:l1E7QVQebI2EPThBxigk7cSKzq1qSsO98JOXTbJtb/k=
+github.com/ermos/httpchecker v0.0.0-20210703135917-6503954375dd h1:sKh1bQpBDWrWW7wp0r902MnQEg7LG8h2EaOztMojUrA=
+github.com/ermos/httpchecker v0.0.0-20210703135917-6503954375dd/go.mod h1:VTyxvgIlOInoUqKtfCBzvTWP+hKRyi53KHjZnolarSY=
 github.com/fatih/color v1.12.0 h1:mRhaKNwANqRgUBGKmnI5ZxEk7QXmjQeCcuYFMX2bfcc=
 github.com/fatih/color v1.12.0/go.mod h1:ELkj/draVOlAH/xkhN6mQ50Qd0MPOk5AAr3maGEBuJM=
 github.com/ghodss/yaml v1.0.0 h1:wQHKEahhL6wmXdzwWG11gIVCkOv05bNOh+Rxn0yngAk=

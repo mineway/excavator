@@ -111,10 +111,7 @@ func initServer(port string, handler http.Handler) *http.Server {
 func call(route parser.API, handler interface{}, middlewareHandler interface{}) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	build := reflect.ValueOf(handler).MethodByName(route.Controller)
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		m := manager.New(r.Context(), r, route, ps)
-
-		// Body Validator
-		status, err := m.CheckRequest(r)
+		m, status, err := manager.New(r, route, ps)
 		if err != nil {
 			response.Error(w, status, err)
 			return
