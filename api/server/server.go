@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/ermos/annotation/parser"
 	"github.com/julienschmidt/httprouter"
@@ -11,8 +10,6 @@ import (
 	"github.com/mineway/excavator/internal/pkg/response"
 	"github.com/mineway/excavator/utils"
 	"github.com/rs/cors"
-	"io/ioutil"
-	"log"
 	"net/http"
 	"reflect"
 	"strings"
@@ -31,9 +28,8 @@ func SetAfterDefaultMiddleware (name ...string) {
 	afterDefaultMiddleware = append(afterDefaultMiddleware, name...)
 }
 
-func Serve (ch chan string, port, routeLocation string, controllerHandler, middlewareHandler interface{}) {
+func Serve (ch chan string, port string, routes []parser.API, controllerHandler, middlewareHandler interface{}) {
 	router := httprouter.New()
-	routes := getRoutes(routeLocation)
 
 	for _, route := range routes {
 		for _, r := range route.Routes {
@@ -138,17 +134,6 @@ func call(route parser.API, handler interface{}, middlewareHandler interface{}) 
 			return
 		}
 	}
-}
-
-func getRoutes(location string) (annotations []parser.API){
-	file, err := ioutil.ReadFile(location)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err = json.Unmarshal(file, &annotations); err != nil {
-		log.Fatal(err)
-	}
-	return
 }
 
 func callMiddleware(

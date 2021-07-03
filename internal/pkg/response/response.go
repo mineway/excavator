@@ -34,7 +34,7 @@ func Error(w http.ResponseWriter, status int, err interface{}) bool {
 		} else {
 			errorValue = errorText
 		}
-		logger.Warning("[API][Internal Server Error] %s", errorText)
+		logger.Warning("[API][InternalServerError] %s", errorText)
 	}else{
 		errorValue = errorText
 	}

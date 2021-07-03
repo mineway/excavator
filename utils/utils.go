@@ -16,6 +16,15 @@ func InArrayInt(arr []int, find int) bool {
 	return false
 }
 
+func InArrayString(arr []string, find string) bool {
+	for _, i := range arr {
+		if i == find {
+			return true
+		}
+	}
+	return false
+}
+
 func GetAvailablePort() (string, error) {
 	listener, err := net.Listen("tcp", ":0")
 	if err != nil {
