@@ -7,7 +7,6 @@ import (
 	"github.com/ermos/annotation"
 	"github.com/ermos/annotation/parser"
 	"github.com/ermos/dotenv"
-	"github.com/mineway/excavator/api/middleware"
 	"github.com/mineway/excavator/api/routes"
 	"github.com/mineway/excavator/api/server"
 	"github.com/mineway/excavator/internal/pkg/config"
@@ -77,7 +76,7 @@ func main()  {
 		log.Fatal(err)
 	}
 
-	server.Serve(c.ApiChan, "80", routesAPI, routes.Handler{}, middleware.Handler{})
+	server.Serve(c.ApiChan, "80", routesAPI, routes.Handler{})
 	
 	for {
 		//fmt.Println("test")

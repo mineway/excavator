@@ -16,19 +16,7 @@ import (
 	"time"
 )
 
-var beforeDefaultMiddleware []string
-
-var afterDefaultMiddleware []string
-
-func SetBeforeDefaultMiddleware (name ...string) {
-	beforeDefaultMiddleware = append(beforeDefaultMiddleware, name...)
-}
-
-func SetAfterDefaultMiddleware (name ...string) {
-	afterDefaultMiddleware = append(afterDefaultMiddleware, name...)
-}
-
-func Serve (ch chan string, port string, routes []parser.API, controllerHandler, middlewareHandler interface{}) {
+func Serve (ch chan string, port string, routes []parser.API, controllerHandler interface{}) {
 	router := httprouter.New()
 
 	for _, route := range routes {
@@ -37,15 +25,15 @@ func Serve (ch chan string, port string, routes []parser.API, controllerHandler,
 
 			switch strings.ToLower(r.Method) {
 			case "get":
-				router.GET(routePath, call(route, controllerHandler, middlewareHandler))
+				router.GET(routePath, call(route, controllerHandler))
 			case "post":
-				router.POST(routePath, call(route, controllerHandler, middlewareHandler))
+				router.POST(routePath, call(route, controllerHandler))
 			case "put":
-				router.PUT(routePath, call(route, controllerHandler, middlewareHandler))
+				router.PUT(routePath, call(route, controllerHandler))
 			case "patch":
-				router.PATCH(routePath, call(route, controllerHandler, middlewareHandler))
+				router.PATCH(routePath, call(route, controllerHandler))
 			case "delete":
-				router.DELETE(routePath, call(route, controllerHandler, middlewareHandler))
+				router.DELETE(routePath, call(route, controllerHandler,))
 			}
 		}
 	}
@@ -104,17 +92,10 @@ func initServer(port string, handler http.Handler) *http.Server {
 	return server
 }
 
-func call(route parser.API, handler interface{}, middlewareHandler interface{}) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func call(route parser.API, handler interface{}) func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	build := reflect.ValueOf(handler).MethodByName(route.Controller)
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		m, status, err := manager.New(r, route, ps)
-		if err != nil {
-			response.Error(w, status, err)
-			return
-		}
-
-		// Before Middleware
-		status, err = callMiddleware(r.Context(), middlewareHandler, append(beforeDefaultMiddleware, route.Middleware.Before...), m, w, r)
 		if err != nil {
 			response.Error(w, status, err)
 			return
@@ -126,42 +107,5 @@ func call(route parser.API, handler interface{}, middlewareHandler interface{}) 
 		rebuild[1] = reflect.ValueOf(m)
 		rebuild[2] = reflect.ValueOf(w)
 		_ = build.Call(rebuild)
-
-		// After middleware
-		status, err = callMiddleware(r.Context(), middlewareHandler, append(afterDefaultMiddleware, route.Middleware.After...), m, w, r)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
 	}
-}
-
-func callMiddleware(
-	ctx context.Context,
-	handler interface{},
-	middlewares []string,
-	m *manager.Manager,
-	w http.ResponseWriter,
-	r *http.Request,
-) (s int, err error){
-	for _, middleware := range middlewares {
-		mw := reflect.ValueOf(handler).MethodByName(middleware)
-		build := make([]reflect.Value, 4)
-
-		build[0] = reflect.ValueOf(ctx)
-		build[1] = reflect.ValueOf(m)
-		build[2] = reflect.ValueOf(w)
-		build[3] = reflect.ValueOf(r)
-
-		res := mw.Call(build)
-
-		if len(res) != 2 {
-			return http.StatusInternalServerError, fmt.Errorf("%s's middleware don't return 2 arguments", middleware)
-		}
-
-		if res[1].Interface() != nil {
-			return res[0].Interface().(int), res[1].Interface().(error)
-		}
-	}
-	return 0, nil
 }
