@@ -2,8 +2,8 @@ package pipeline
 
 import (
 	"context"
-	"github.com/mineway/excavator/internal/pkg/config"
-	"github.com/mineway/excavator/internal/pkg/pipeline/pipes"
+	"github.com/mineway/worker/internal/pkg/config"
+	"github.com/mineway/worker/internal/pkg/pipeline/pipes"
 )
 
 type Piper interface {

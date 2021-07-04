@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/jaypipes/ghw"
-	"github.com/mineway/excavator/internal/pkg/config"
-	"github.com/mineway/excavator/internal/pkg/logger"
+	"github.com/mineway/worker/internal/pkg/config"
+	"github.com/mineway/logger"
 	"runtime"
 )
 

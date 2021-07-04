@@ -7,12 +7,12 @@ import (
 	"github.com/ermos/annotation"
 	"github.com/ermos/annotation/parser"
 	"github.com/ermos/dotenv"
-	"github.com/mineway/excavator/api/routes"
-	"github.com/mineway/excavator/api/server"
-	"github.com/mineway/excavator/internal/pkg/config"
-	"github.com/mineway/excavator/internal/pkg/logger"
-	"github.com/mineway/excavator/internal/pkg/pipeline"
-	"github.com/mineway/excavator/utils"
+	"github.com/mineway/worker/api/routes"
+	"github.com/mineway/worker/api/server"
+	"github.com/mineway/worker/internal/pkg/config"
+	"github.com/mineway/logger"
+	"github.com/mineway/worker/internal/pkg/pipeline"
+	"github.com/mineway/worker/utils"
 	"log"
 	"os"
 	"time"
@@ -36,7 +36,7 @@ func main()  {
 			log.Fatal(err)
 		}
 
-		err = annotation.Save(annotationResult, "cmd/excavator/routes.json")
+		err = annotation.Save(annotationResult, "cmd/worker/routes.json")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -76,10 +76,10 @@ func main()  {
 		log.Fatal(err)
 	}
 
-	server.Serve(c.ApiChan, "80", routesAPI, routes.Handler{})
+	go server.Serve(c.ApiChan, "5616", routesAPI, routes.Handler{})
 	
 	for {
 		//fmt.Println("test")
-		time.Sleep(1 * time.Second)
+		time.Sleep(15 * time.Second)
 	}
 }

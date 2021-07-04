@@ -3,7 +3,7 @@ package response
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mineway/excavator/internal/pkg/logger"
+	"github.com/mineway/logger"
 	"net/http"
 	"os"
 	"reflect"

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/inancgumus/screen"
-	"github.com/mineway/excavator/internal/pkg/rig"
+	"github.com/mineway/worker/internal/pkg/rig"
 	"github.com/mitchellh/go-homedir"
 	"io/ioutil"
 	"os"

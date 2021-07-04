@@ -2,8 +2,8 @@ package routes
 
 import (
 	"context"
-	"github.com/mineway/excavator/internal/pkg/manager"
-	"github.com/mineway/excavator/internal/pkg/response"
+	"github.com/mineway/worker/internal/pkg/manager"
+	"github.com/mineway/worker/internal/pkg/response"
 	"net/http"
 )
 
