@@ -9,20 +9,20 @@
 
 First of all, you need to clone this repository in your workspace :
 
-```
+```go
 git clone git@github.com:mineway/worker.git
 ```
 
 Before running worker, you need to generate all routes from annotation,
 for that, you need to run worker with `build` parameter like that :
 
-```
+```go
 go run -v ./cmd/worker build
 ```
 
 `routes.json` file is now fill, you can run your worker :
 
-```
+```go
 go run -v ./cmd/worker
 ```
 
