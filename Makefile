@@ -39,3 +39,8 @@ else
 		@rm -f ./dist/$$(basename $$cmd)
 	done
 endif
+
+# Run a command
+worker-dev:
+	@go run -v ./cmd/worker build
+	@go run -v ./cmd/worker
