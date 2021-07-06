@@ -86,7 +86,7 @@ func (c *Config) Save() error {
 	}
 
 	return ioutil.WriteFile(
-		filepath.Join(c.ExcavatorDir, "config.json"),
+		filepath.Join(c.ExcavatorDir, "worker.json"),
 		file,
 		0600,
 		)
@@ -119,18 +119,17 @@ func (c *Config) create() (err error) {
 		return err
 	}
 
-	_, err = os.Create(filepath.Join(c.ExcavatorDir, "config.json"))
+	_, err = os.Create(filepath.Join(c.ExcavatorDir, "worker.json"))
 	if err != nil {
 		return err
 	}
 
-	//var rgx = regexp.MustCompile(`(?m)("[^"]+"|[^\s"]+)`)
 	return c.Save()
 }
 
 // Import config from config directory into memories
 func (c *Config) read() error {
-	data, err := ioutil.ReadFile(filepath.Join(c.ExcavatorDir, "config.json"))
+	data, err := ioutil.ReadFile(filepath.Join(c.ExcavatorDir, "worker.json"))
 	if err != nil {
 		return err
 	}
